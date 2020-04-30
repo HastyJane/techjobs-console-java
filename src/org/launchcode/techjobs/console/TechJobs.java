@@ -2,7 +2,9 @@ package org.launchcode.techjobs.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.MissingResourceException;
 import java.util.Scanner;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -58,10 +60,10 @@ public class TechJobs {
 
                 // What is their search term?
                 System.out.println("\nSearch term: ");
-                String searchTerm = in.nextLine();
+                String searchTerm = in.nextLine().toLowerCase();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -109,8 +111,33 @@ public class TechJobs {
     }
 
     // Print a list of jobs
-    private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+    public static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        //loop through someJobs arraylist and print
+        // added nested loop so properties can be added later
+        if (someJobs.size() > 0) {
+            System.out.println("*****");
+            for (int i = 0; i < someJobs.size(); i++) {
 
-        System.out.println("printJobs is not implemented yet");
+                for (Map.Entry<String, String> property : someJobs.get(i).entrySet()) {
+                    String key = property.getKey();
+                    String value = property.getValue();
+                    System.out.printf("%s: %s \n", key, value);
+
+                }
+                System.out.println("*****");
+
+
+            }
+        } else {
+            System.out.println("There are no results. Please try a different search term.");
+        }
     }
-}
+
+
+    }
+
+
+
+
+
+
